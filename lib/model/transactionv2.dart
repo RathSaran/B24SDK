@@ -7,7 +7,7 @@ class TransactionV2 {
     String deviceCode;
     String description;
     String currency;
-    int amount;
+    double amount;
     String language;
     String cancelUrl;
     String redirectUrl;
@@ -40,7 +40,7 @@ class TransactionV2 {
         deviceCode: json["device_code"],
         description: json["description"],
         currency: json["currency"],
-        amount: json["amount"],
+        amount: json["amount"].toDouble(),
         language: json["language"],
         cancelUrl: json["cancel_url"],
         redirectUrl: json["redirect_url"],

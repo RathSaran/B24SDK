@@ -7,7 +7,7 @@ class Customer {
     String customerName;
     String customerNameLatin;
     String billNo;
-    int amount;
+    double amount;
 
     Customer({
         required this.branchCode,
@@ -30,7 +30,7 @@ class Customer {
         customerName: json["customer_name"],
         customerNameLatin: json["customer_name_latin"],
         billNo: json["bill_no"],
-        amount: json["amount"],
+        amount: json["amount"].toDouble(),
     );
 
     Map<String, dynamic> toJson() => {

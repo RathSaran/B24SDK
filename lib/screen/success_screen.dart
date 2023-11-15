@@ -1,16 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class SuccessScreen extends StatelessWidget {
-  const SuccessScreen({super.key});
+
+  final String invoiceNo;
+  SuccessScreen({required this.invoiceNo});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: Text("Hello"),
+    return SafeArea(
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                color:Color(0xFF2D3951)
+              ),
+            ),
+            Center(
+              child: Container(
+                padding:const EdgeInsets.all(30),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: const Color(0xFF27344E)
+                ),
+               child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SvgPicture.asset("assets/success_icon.svg",width: 75,height: 75,),
+                  const SizedBox(height: 20,),
+                  Text("វិក្កយបត្រលេខ ៖ $invoiceNo បានទូទាត់រួចរាល់",style:const TextStyle(color: Color(0xFFC5DCFF)),)
+
+                ],
+               ),
+              ),
+            )
+          ],
+        ),
       )
-    ,
-    );
+      );
   }
 }
