@@ -39,7 +39,7 @@ dependencies:
   go_router: ^12.1.0
   flutter_svg: ^2.0.9
 
-  b24_payment_sdk: ^1.0.3
+  b24_payment_sdk: ^1.0.2
 
 dev_dependencies:
   flutter_test:
