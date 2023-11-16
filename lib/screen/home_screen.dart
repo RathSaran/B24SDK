@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:sample_merchant_app_flutter/const/constant.dart';
 import 'package:sample_merchant_app_flutter/widget/button_widget.dart';
 import 'package:sample_merchant_app_flutter/widget/input_text_widget.dart';
 import 'package:b24_payment_sdk/b24_payment_sdk.dart';
@@ -25,11 +27,44 @@ class _HomeScreenState extends State<HomeScreen> {
   String language="km";
   bool production=false;
 
+
+//   String _message="Unknown Messsage";
+//   static const platform=MethodChannel("merchant-sample.com/native");
+
+//  Future<void> _getSDK(String tranNo,String refererKey,String lang,bool isDarkMode,bool isProduction) async{
+//   String messageFromNativeCode;
+
+//   try{
+//     messageFromNativeCode=await platform.invokeMethod("getSDK",{
+//       'tranNo':tranNo,
+//       'refererKey':refererKey,
+//       'language':lang,
+//       'darkMode':isDarkMode,
+//       'production':isProduction
+//     });
+//   } on PlatformException catch(ex){
+//     messageFromNativeCode="Failed to load message: ${ex.message}";
+//   }
+//   setState(() {
+//     _message=messageFromNativeCode;
+//   });
+// }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Merchant App"),
+        actions: [
+          Container(
+            padding:const EdgeInsets.only(right: 15),
+            alignment: Alignment.centerRight,
+            child: const Text(Constant.version,style: TextStyle(fontStyle: FontStyle.italic),),
+          )
+         
+        ],
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -146,6 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
            
+           
             //load sdk
             ButtonWidget(
               color: Colors.green, 
@@ -153,23 +189,37 @@ class _HomeScreenState extends State<HomeScreen> {
               callback: (){
 
 
+                //invoke native
+                // _getSDK(
+                //   _transactionNoController.text == "" ? "BEDCBDCA55AC":_transactionNoController.text,
+                //    _refererKeyController.text == "" ? "123X":_refererKeyController.text,
+                //   language,
+                //   darkMode,
+                //   production);
+            
 
-                print(_transactionNoController.text);
-                 print(_refererKeyController.text);
-                  print(darkMode);
-                   print(language);
-                    print(production);
+                   //to invoke to native
+                  
 
-                 B24PaymentSdk.intSdk(
+                  //for call in flutter
+                
+                   B24PaymentSdk.intSdk(
                   controller: (context), 
-                  tranId: _transactionNoController.text, 
-                  refererKey: _refererKeyController.text,
+                  tranId: _transactionNoController.text == ""? "BEDCBDCA55AC":_transactionNoController.text, 
+                  refererKey: _refererKeyController.text  == ""?"123X":_refererKeyController.text,
                   darkMode: darkMode,
                   language: language,
                   isProduction: production
                   );
+              }
+
+               
+              
+
+                 
+                
       
-              })
+              )
       
             ],
           ),

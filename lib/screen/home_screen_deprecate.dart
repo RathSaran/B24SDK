@@ -7,7 +7,6 @@ import 'package:sample_merchant_app_flutter/model/transaction_response.dart';
 import 'package:sample_merchant_app_flutter/model/transactionv2.dart';
 import 'package:sample_merchant_app_flutter/widget/button_widget.dart';
 import 'package:sample_merchant_app_flutter/widget/input_text_widget.dart';
-import 'package:b24_payment_sdk/b24_payment_sdk.dart';
 
 
 enum Currency{khr,usd}
@@ -239,13 +238,13 @@ class _HomeScreenDeprecateState extends State<HomeScreenDeprecate> {
 
                  TransactionResponse? tran=await initTransactionV2Async();
                  
-                  B24PaymentSdk.intSdk(
-                  controller: context, 
-                  tranId: tran!.data.tranId, 
-                  refererKey: "123X",
-                  darkMode: themMode,
-                  language: language
-                  );
+                  // B24PaymentSdk.intSdk(
+                  // controller: context, 
+                  // tranId: tran!.data.tranId, 
+                  // refererKey: "123X",
+                  // darkMode: themMode,
+                  // language: language
+                  // );
 
                 })
             ],

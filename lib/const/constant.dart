@@ -7,4 +7,7 @@ class Constant{
   static const String total="សរុប :";
   static const String done="រួចរាល់";
 
+  static const String version="V 1.0.0.0";
+
+
 }

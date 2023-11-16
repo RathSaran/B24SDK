@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
 import 'package:sample_merchant_app_flutter/core/base_url.dart';
-import 'package:http/http.dart' as http;
 import 'package:sample_merchant_app_flutter/model/customer.dart';
 import 'package:sample_merchant_app_flutter/model/transaction_response.dart';
 import 'package:sample_merchant_app_flutter/model/transactionv2.dart';
@@ -43,17 +42,17 @@ class RequestAPI {
     };
 
     try {
-      final response =
-          await http.post(
-            Uri.parse(BaseRequestURL.initTranV2), headers: headers, body: json.encode(body));
+      // final response =
+      //     await http.post(
+      //       Uri.parse(BaseRequestURL.initTranV2), headers: headers, body: json.encode(body));
 
 
-    response.body;
+    // response.body;
 
-    print(response.body);
+    // print(response.body);
 
 
-    return TransactionResponse.fromJson(json.decode(response.body));
+    // return TransactionResponse.fromJson(json.decode(response.body));
 
   
     } catch (ex) {
