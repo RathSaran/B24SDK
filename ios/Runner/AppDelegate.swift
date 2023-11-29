@@ -1,6 +1,6 @@
 import UIKit
 import Flutter
-import B24PaymentSdk
+
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {

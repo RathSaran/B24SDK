@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+// import 'package:flutter_svg/svg.dart';
 import 'package:sample_merchant_app_flutter/const/constant.dart';
 import 'package:sample_merchant_app_flutter/widget/action_button_widget.dart';
 import 'package:sample_merchant_app_flutter/widget/dash_line.dart';
@@ -43,7 +43,7 @@ class SuccessScreenDeprecate extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                    SvgPicture.asset("assets/success_icon.svg",width: 75,height: 75,),
+                    // SvgPicture.asset("assets/success_icon.svg",width: 75,height: 75,),
                     const SizedBox(height: 20,),
                     const Text(Constant.invoiceAlreadyPaid),
                    const SizedBox(height: 20,),

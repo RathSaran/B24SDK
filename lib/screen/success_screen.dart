@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+
 
 class SuccessScreen extends StatelessWidget {
 
@@ -27,7 +27,7 @@ class SuccessScreen extends StatelessWidget {
                child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SvgPicture.asset("assets/success_icon.svg",width: 75,height: 75,),
+                  Image.asset("assets/check.png",width: 75,height: 75,),
                   const SizedBox(height: 20,),
                   Text("វិក្កយបត្រលេខ ៖ $invoiceNo បានទូទាត់រួចរាល់",style:const TextStyle(color: Color(0xFFC5DCFF)),)
 

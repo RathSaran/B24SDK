@@ -5,6 +5,7 @@ import 'package:sample_merchant_app_flutter/core/base_url.dart';
 import 'package:sample_merchant_app_flutter/model/customer.dart';
 import 'package:sample_merchant_app_flutter/model/transaction_response.dart';
 import 'package:sample_merchant_app_flutter/model/transactionv2.dart';
+import 'package:http/http.dart' as http;
 
 class RequestAPI {
   Future<void> authorizeToken() async {}
@@ -58,5 +59,35 @@ class RequestAPI {
     } catch (ex) {
       debugPrint(ex.toString());
     }
+  }
+
+
+  static Future<String> checkoutDetailAsyc(String refererKey,String tranNo) async{
+       final Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'token': '529404f1-e439-45ba-b3f2-cdd7dc3cc336' ,//5537
+        'X-Referrer-Key':refererKey
+        };
+
+        final Map<String, dynamic> body = {
+          "tran_id": tranNo,
+        };
+
+        try{
+          final response=await http.post(
+                     Uri.parse(BaseRequestURL.checkoutDetail),
+                     headers: headers,
+                     body: json.encode(body)
+            );
+
+            final data=jsonDecode(response.body);
+
+            // print(data['data']['trans_info']['status']);
+
+            return data['data']['trans_info']['status'];
+
+        }catch(ex){
+            throw Exception(ex);
+        }
   }
 }

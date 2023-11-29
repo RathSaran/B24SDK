@@ -4,6 +4,7 @@ class ButtonWidget extends StatelessWidget {
   final Color color;
   final String name;
   final VoidCallback callback;
+  
 
   ButtonWidget({required this.color,required this.name,required this.callback});
 

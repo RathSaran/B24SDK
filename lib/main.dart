@@ -18,11 +18,14 @@ final router = GoRouter(routes: [
     },
   ),
   GoRoute(
-      path: '/success/:tranNo',
+      path: '/success',
       builder: (_, state) {
-        final tranNo = state.pathParameters['tranNo'].toString();
-        return SuccessScreen(
-          invoiceNo: tranNo,
-        );
+        final tranNo = state.uri.queryParameters['tran_id'];
+        if (tranNo != null && tranNo.isNotEmpty) {
+          return SuccessScreen(
+            invoiceNo: tranNo,
+          );
+        }
+        return const Scaffold();
       })
 ]);

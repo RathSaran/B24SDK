@@ -82,20 +82,20 @@ class _HomeScreenDeprecateState extends State<HomeScreenDeprecate> {
             mainAxisSize: MainAxisSize.min,
             children: [
               //amount
-              InputTextWidget(
-                controller: _amountController,
-                label: "amount",
-                inputType: TextInputType.number,
+            //   InputTextWidget(
+            //     controller: _amountController,
+            //     label: "amount",
+            //     inputType: TextInputType.number,
       
-              ),
+            //   ),
       
-            const SizedBox(height: 10,),
-            //user ref
-            InputTextWidget
-            (
-            label: "user ref", 
-            inputType: TextInputType.text, 
-            controller: _userRefController),
+            // const SizedBox(height: 10,),
+            // //user ref
+            // InputTextWidget
+            // (
+            // label: "user ref", 
+            // inputType: TextInputType.text, 
+            // controller: _userRefController),
               //currency
               Align(
                 alignment: Alignment.centerLeft,
@@ -231,22 +231,22 @@ class _HomeScreenDeprecateState extends State<HomeScreenDeprecate> {
             //  ),
           const SizedBox(height: 10,),
             //button checkout
-              ButtonWidget(
-                color: Colors.green, 
-                name: "Checkout", 
-                callback: () async{
+              // ButtonWidget(
+              //   color: Colors.green, 
+              //   name: "Checkout", 
+              //   callback: () async{
 
-                 TransactionResponse? tran=await initTransactionV2Async();
+              //    TransactionResponse? tran=await initTransactionV2Async();
                  
-                  // B24PaymentSdk.intSdk(
-                  // controller: context, 
-                  // tranId: tran!.data.tranId, 
-                  // refererKey: "123X",
-                  // darkMode: themMode,
-                  // language: language
-                  // );
+              //     // B24PaymentSdk.intSdk(
+              //     // controller: context, 
+              //     // tranId: tran!.data.tranId, 
+              //     // refererKey: "123X",
+              //     // darkMode: themMode,
+              //     // language: language
+              //     // );
 
-                })
+              //   })
             ],
           ),
         ),
