@@ -33,6 +33,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="http" android:host="dl-merchant-sample.bill24.io"/>
                 <data android:scheme="https" />
+                <data android:scheme="b24deeplink"/>
                 </intent-filter>
 
         </activity>
