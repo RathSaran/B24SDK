@@ -5,6 +5,8 @@ PODS:
   - esys_flutter_share_plus (0.0.1):
     - Flutter
   - Flutter (1.0.0)
+  - flutter_background_service (0.0.1):
+    - Flutter
   - image_gallery_saver (2.0.2):
     - Flutter
   - package_info_plus (0.4.5):
@@ -25,6 +27,7 @@ DEPENDENCIES:
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - esys_flutter_share_plus (from `.symlinks/plugins/esys_flutter_share_plus/ios`)
   - Flutter (from `Flutter`)
+  - flutter_background_service (from `.symlinks/plugins/flutter_background_service/ios`)
   - image_gallery_saver (from `.symlinks/plugins/image_gallery_saver/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
@@ -43,6 +46,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/esys_flutter_share_plus/ios"
   Flutter:
     :path: Flutter
+  flutter_background_service:
+    :path: ".symlinks/plugins/flutter_background_service/ios"
   image_gallery_saver:
     :path: ".symlinks/plugins/image_gallery_saver/ios"
   package_info_plus:
@@ -60,6 +65,7 @@ SPEC CHECKSUMS:
   connectivity_plus: bf0076dd84a130856aa636df1c71ccaff908fa1d
   esys_flutter_share_plus: 302b73471e2686a9ce282898d1df5d6f4382edba
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_background_service: a4644870cc76287aaa6147b47107e52680b79c90
   image_gallery_saver: cb43cc43141711190510e92c460eb1655cd343cb
   package_info_plus: 115f4ad11e0698c8c1c5d8a689390df880f47e85
   path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943

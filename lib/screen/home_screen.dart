@@ -1,45 +1,38 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sample_merchant_app_flutter/widget/button_widget.dart';
 import 'package:sample_merchant_app_flutter/widget/input_text_widget.dart';
 import 'package:b24_payment_sdk/b24_payment_sdk.dart';
 
+enum ThemeMode { darkMode, lightMode }
 
-
-enum ThemeMode{darkMode,lightMode}
-enum Language{km,en}
-
+enum Language { km, en }
 
 class HomeScreen extends StatefulWidget {
-  
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _transactionNoController=TextEditingController();
-  final _refererKeyController=TextEditingController();
+  final _transactionNoController = TextEditingController();
+  final _refererKeyController = TextEditingController();
 
-  final GlobalKey<FormState> _formKey=GlobalKey<FormState>();
-  String _inputText='';
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String _inputText = '';
 
-
-  String? _validateInputText(String? value,String field){
-    if(value == null || value.isEmpty){
+  String? _validateInputText(String? value, String field) {
+    if (value == null || value.isEmpty) {
       return 'Please input $field';
     }
   }
 
+  ThemeMode? _themeMode = ThemeMode.lightMode;
+  Language? _language = Language.km;
 
-
-  ThemeMode? _themeMode=ThemeMode.lightMode;
-  Language? _language=Language.km;
-
-  bool darkMode=false;
-  String language="km";
-  bool production=false;
-
+  bool darkMode = false;
+  String language = "km";
+  bool production = false;
 
 //   String _message="Unknown Messsage";
 //   static const platform=MethodChannel("merchant-sample.com/native");
@@ -65,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 // _showSuccessDialog(){
 //   showDialog(
-//     context: context, 
+//     context: context,
 //     builder: (context){
 //       return  AlertDialog(
 //         title: const  Text("Payment Success"),
@@ -74,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
 //           TextButton(
 //             onPressed: (){
 //                 Navigator.pop(context);
-//             }, 
+//             },
 //             child: const Text("Close")
 //             )
 //         ],
@@ -83,65 +76,82 @@ class _HomeScreenState extends State<HomeScreen> {
 //     );
 // }
 
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Merchant App"),
-        actions: [
-          Container(
-            padding:const EdgeInsets.only(right: 15),
-            alignment: Alignment.centerRight,
-            child: FutureBuilder<PackageInfo>(
-              future: PackageInfo.fromPlatform(),
-              builder: (context,snapshot){
-                if(snapshot.data !=null){
-                  var packageInfo=snapshot.data!;
-                  return Text('V${packageInfo.version}.${packageInfo.buildNumber}'); 
-                }
-                return const Text('V1.0.0.0');
-                                       
-              },
-            )
-          )
-         
-        ],
-      ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding:const EdgeInsets.all(15),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                //transaction no
-                InputTextWidget(
-                  label: "transaction no", 
-                  inputType: TextInputType.text, 
-                  controller: _transactionNoController,
-                  validator:(value)=> _validateInputText(value,"transaction no"),
-                  onChanged: (value){
-                    setState(() {
-                      _inputText=value;
-                    });
-                  },),
-                const SizedBox(height: 10,),
-                //referer key
-                InputTextWidget(
-                  label: "referer key", 
-                  inputType: TextInputType.text, 
-                  controller: _refererKeyController,
-                  validator:(value)=> _validateInputText(value,"referer key"),
-                  onChanged: (value) {
-                    setState(() {
-                      _inputText=value;
-                    });
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Merchant App"),
+          actions: [
+            Container(
+                padding: const EdgeInsets.only(right: 15),
+                alignment: Alignment.centerRight,
+                child: FutureBuilder<PackageInfo>(
+                  future: PackageInfo.fromPlatform(),
+                  builder: (context, snapshot) {
+                    if (snapshot.data != null) {
+                      var packageInfo = snapshot.data!;
+                      return Text(
+                          'V${packageInfo.version}.${packageInfo.buildNumber}');
+                    }
+                    return const Text('V1.0.0.0');
                   },
+                ))
+          ],
+        ),
+        body: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Padding(
+            padding: const EdgeInsets.all(15),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  //transaction no
+                  InputTextWidget(
+                    label: "transaction no",
+                    inputType: TextInputType.text,
+                    controller: _transactionNoController,
+                    validator: (value) =>
+                        _validateInputText(value, "transaction no"),
+                    onChanged: (value) {
+                      setState(() {
+                        _inputText = value;
+                      });
+                    },
+                    pastIcon: IconButton(
+                      icon: const Icon(Icons.paste_outlined),
+                      onPressed: () async {
+                        ClipboardData? clipboard =
+                            await Clipboard.getData(Clipboard.kTextPlain);
+                        if (clipboard != null) {
+                          _transactionNoController.text = clipboard.text ?? "";
+                        }
+                      },
+                    ),
                   ),
-                
-                //theme mode 
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  //referer key
+                  InputTextWidget(
+                    label: "referer key",
+                    inputType: TextInputType.text,
+                    controller: _refererKeyController,
+                    validator: (value) =>
+                        _validateInputText(value, "referer key"),
+                    onChanged: (value) {
+                      setState(() {
+                        _inputText = value;
+                      });
+                    },
+                    pastIcon: const SizedBox(),
+                  ),
+
+                  //theme mode
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Row(
@@ -150,37 +160,37 @@ class _HomeScreenState extends State<HomeScreen> {
                         Row(
                           children: [
                             Radio<ThemeMode>(
-                          value: ThemeMode.lightMode,
-                          groupValue: _themeMode,
-                          onChanged: (value){
-                            setState(() {
-                              _themeMode=value;
-                              darkMode=false;
-                            });
-                          },
-                        ),
-                        const Text("Light Mode")
+                              value: ThemeMode.lightMode,
+                              groupValue: _themeMode,
+                              onChanged: (value) {
+                                setState(() {
+                                  _themeMode = value;
+                                  darkMode = false;
+                                });
+                              },
+                            ),
+                            const Text("Light Mode")
                           ],
                         ),
                         Row(
                           children: [
                             Radio<ThemeMode>(
-                          value: ThemeMode.darkMode,
-                          groupValue: _themeMode,
-                          onChanged: (value){
-                            setState(() {
-                              _themeMode=value;
-                              darkMode=true;
-                            });
-                          },
-                        ),
-                        const Text("Dark Mode")
+                              value: ThemeMode.darkMode,
+                              groupValue: _themeMode,
+                              onChanged: (value) {
+                                setState(() {
+                                  _themeMode = value;
+                                  darkMode = true;
+                                });
+                              },
+                            ),
+                            const Text("Dark Mode")
                           ],
                         )
                       ],
                     ),
                   ),
-                
+
                   //language
                   Align(
                     alignment: Alignment.centerLeft,
@@ -190,80 +200,74 @@ class _HomeScreenState extends State<HomeScreen> {
                         Row(
                           children: [
                             Radio<Language>(
-                          value: Language.km,
-                          groupValue: _language,
-                          onChanged: (value){
-                            setState(() {
-                              _language=value;
-                              language="km";
-                            });
-                          },
-                        ),
-                        const Text("Khmer")
+                              value: Language.km,
+                              groupValue: _language,
+                              onChanged: (value) {
+                                setState(() {
+                                  _language = value;
+                                  language = "km";
+                                });
+                              },
+                            ),
+                            const Text("Khmer")
                           ],
                         ),
                         Row(
                           children: [
                             Radio<Language>(
-                          value: Language.en,
-                          groupValue: _language,
-                          onChanged: (value){
-                            setState(() {
-                              _language=value;
-                              language="en";
-                            });
-                          },
-                        ),
-                        const Text("English")
+                              value: Language.en,
+                              groupValue: _language,
+                              onChanged: (value) {
+                                setState(() {
+                                  _language = value;
+                                  language = "en";
+                                });
+                              },
+                            ),
+                            const Text("English")
                           ],
                         )
                       ],
                     ),
                   ),
-                
-              const SizedBox(height: 10,),
-          
-              Row(
-                children: [
-                     Checkbox(
-                      value: production, 
-                      onChanged: (value){
-                        setState(() {
-                          production=value!;
-                        });
-                      }),
-          
-                    const Text("Production")
-              
+
+                  const SizedBox(
+                    height: 10,
+                  ),
+
+                  Row(
+                    children: [
+                      Checkbox(
+                          value: production,
+                          onChanged: (value) {
+                            setState(() {
+                              production = value!;
+                            });
+                          }),
+                      const Text("Production")
+                    ],
+                  ),
+
+                  //load sdk
+                  ButtonWidget(
+                      color: Colors.green,
+                      name: "Init Sdk",
+                      callback: () async {
+                        FocusScope.of(context).unfocus();
+                        //for call in flutter
+                        if (_formKey.currentState!.validate()) {
+                          // ignore: use_build_context_synchronously
+                          B24PaymentSdk.intSdk(
+                              controller: (context),
+                              tranId: _transactionNoController.text,
+                              refererKey: _refererKeyController.text,
+                              darkMode: darkMode,
+                              language: language,
+                              isProduction: production);
+                        }
+                      })
                 ],
               ),
-             
-             
-              //load sdk
-              ButtonWidget(
-                color: Colors.green, 
-                name: "Init Sdk", 
-                callback: () async{
-           
-                    //for call in flutter
-
-                    if(_formKey.currentState!.validate()){
-                       
-                             // ignore: use_build_context_synchronously
-                             B24PaymentSdk.intSdk(
-                                controller: (context), 
-                                tranId: _transactionNoController.text, 
-                                refererKey: _refererKeyController.text,
-                                darkMode: darkMode,
-                                language: language,
-                                isProduction: production
-                              );
-                        }
-                    }  
-                
-                )
-                
-              ],
             ),
           ),
         ),

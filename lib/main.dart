@@ -12,20 +12,21 @@ void main() {
 
 final router = GoRouter(routes: [
   GoRoute(
-    path: '/',
-    builder: (_, __) {
-      return HomeScreen();
-    },
-  ),
-  GoRoute(
-      path: '/success',
-      builder: (_, state) {
-        final tranNo = state.uri.queryParameters['tran_id'];
-        if (tranNo != null && tranNo.isNotEmpty) {
-          return SuccessScreen(
-            invoiceNo: tranNo,
-          );
-        }
-        return const Scaffold();
-      })
+      path: '/',
+      builder: (_, __) {
+        return HomeScreen();
+      },
+      routes: [
+        GoRoute(
+            path: 'success',
+            builder: (_, state) {
+              final tranNo = state.uri.queryParameters['tran_id'];
+              if (tranNo != null && tranNo.isNotEmpty) {
+                return SuccessScreen(
+                  invoiceNo: tranNo,
+                );
+              }
+              return const Scaffold();
+            })
+      ]),
 ]);
