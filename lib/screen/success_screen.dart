@@ -10,6 +10,18 @@ class SuccessScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+        elevation: 0,
+        backgroundColor: const Color(0xFF2D3951),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded),
+          onPressed: () {
+           if(Navigator.canPop(context)){
+             Navigator.pop(context);
+           }
+          },
+        ),
+      ),
         body: Stack(
           children: [
             Container(
