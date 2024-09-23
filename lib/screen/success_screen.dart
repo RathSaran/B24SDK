@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 class SuccessScreen extends StatelessWidget {
 
   final String invoiceNo;
-  SuccessScreen({required this.invoiceNo});
+ const SuccessScreen({
+  Key? key,
+  required this.invoiceNo}):super(key: key);
 
   @override
   Widget build(BuildContext context) {

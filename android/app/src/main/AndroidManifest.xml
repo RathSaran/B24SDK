@@ -1,6 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- Queries section for intent handling -->
+    <queries>   
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+    </queries>
     <application
         android:label="Flutter SDK"
         android:name="${applicationName}"
@@ -33,7 +41,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="http" android:host="dl-merchant-sample.bill24.io"/>
                 <data android:scheme="https" />
-                <data android:scheme="b24deeplink"/>
+                <!-- <data android:scheme="b24deeplink"/> -->
                 </intent-filter>
 
         </activity>

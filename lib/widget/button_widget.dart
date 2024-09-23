@@ -6,7 +6,9 @@ class ButtonWidget extends StatelessWidget {
   final VoidCallback callback;
   
 
-  ButtonWidget({required this.color,required this.name,required this.callback});
+  const ButtonWidget({
+    Key? key,
+    required this.color,required this.name,required this.callback}):super(key: key);
 
   @override
   Widget build(BuildContext context) {

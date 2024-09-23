@@ -4,7 +4,9 @@ class DashLineWidget extends StatelessWidget {
   final double height;
   final Color color;
 
-  DashLineWidget({this.height=1,this.color=Colors.black,ke});
+  const DashLineWidget({
+    Key? key,
+    this.height=1,this.color=Colors.black,ke}):super(key: key);
 
   @override
   Widget build(BuildContext context) {

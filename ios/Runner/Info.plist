@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-<key>UIBackgroundModes</key>
-<array>
-	<string>processing</string>
-</array>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>task-identifier</string>
@@ -33,6 +29,17 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.example.sampleMerchantAppFlutter</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>b24deeplink</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FlutterDeepLinkingEnabled</key>
@@ -41,8 +48,7 @@
 	<string></string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-		<string>sms</string>
-		<string>tel</string>
+        <string>https</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
@@ -72,18 +78,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-
-	<key>CFBundleURLTypes</key>
-		<array>
-		<dict>
-			<key>CFBundleURLName</key>
-			<string>com.bill24.paymentsdkIOS</string> <!-- Replace with your app's Bundle Identifier -->
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>b24deeplink</string> 
-				<!-- Replace 'yourdeeplink' with your custom deep link scheme -->
-			</array>
-		</dict>
-		</array>
 </dict>
 </plist>

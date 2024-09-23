@@ -6,7 +6,9 @@ class ActionButtonWidget extends StatelessWidget {
   final String imageName;
   final Color color;
 
-  ActionButtonWidget({required this.imageName,required this.color,required this.callback});
+ const ActionButtonWidget({
+    Key? key,
+    required this.imageName,required this.color,required this.callback}):super(key: key);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

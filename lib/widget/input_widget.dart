@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 
-class InputTextWidget extends StatelessWidget {
-  final String label;
-  final TextInputType inputType;
+class InputWidget extends StatelessWidget {
   final TextEditingController controller;
+  final Widget label;
+  final Widget? suffixIcon;
+  final double height;
   final FormFieldValidator<String>? validator;
   final ValueChanged<String>? onChanged;
-  final Widget? pastIcon;
+  final String? initValue;
+  const InputWidget({
+    super.key,
+    required this.label,
+    this.suffixIcon,
+    required this.controller,
+    this.validator,
+    required this.onChanged,
+    this.initValue,
+    this.height = 50,
+  });
 
-  const InputTextWidget(
-      {Key? key,
-      required this.label,
-      required this.inputType,
-      required this.controller,
-      required this.validator,
-      required this.onChanged,
-      required this.pastIcon}):super(key: key);
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -25,16 +28,11 @@ class InputTextWidget extends StatelessWidget {
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-            suffixIcon: pastIcon,
-            label: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(label),
-              ],
-            )),
-        keyboardType: inputType,
+            suffixIcon: suffixIcon,
+            label: label),
         validator: validator,
         onChanged: onChanged,
+        initialValue: initValue,
       ),
     );
   }

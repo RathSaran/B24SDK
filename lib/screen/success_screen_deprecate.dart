@@ -8,7 +8,7 @@ import 'package:sample_merchant_app_flutter/widget/button_widget.dart';
 class SuccessScreenDeprecate extends StatelessWidget {
   const SuccessScreenDeprecate({super.key});
 
-  _build_row(String title ,String value){
+  _buildRow(String title ,String value){
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -49,17 +49,17 @@ class SuccessScreenDeprecate extends StatelessWidget {
                    const SizedBox(height: 20,),
                     DashLineWidget(height: 1,color: Colors.black.withOpacity(0.4),),
                      const SizedBox(height: 20,),
-                    _build_row(Constant.invoiceNo, "Invoice No"),
+                    _buildRow(Constant.invoiceNo, "Invoice No"),
                     const SizedBox(height: 10,),
-                    _build_row(Constant.bankRef, "Bank Ref"),
+                    _buildRow(Constant.bankRef, "Bank Ref"),
                     const SizedBox(height: 10,),
-                    _build_row(Constant.toMerchant, "To Merchant"),
+                    _buildRow(Constant.toMerchant, "To Merchant"),
                     const SizedBox(height: 10,),
-                    _build_row(Constant.tranDate, "value"),
+                    _buildRow(Constant.tranDate, "value"),
                     const SizedBox(height: 20,),
                     DashLineWidget(height: 1,color: Colors.black.withOpacity(0.4),),
                     const SizedBox(height: 20,),
-                    _build_row(Constant.total, "Total"),
+                    _buildRow(Constant.total, "Total"),
                     const SizedBox(height: 20,),
                     DashLineWidget(height: 1,color: Colors.black.withOpacity(0.4),),
                     const SizedBox(height: 20,),

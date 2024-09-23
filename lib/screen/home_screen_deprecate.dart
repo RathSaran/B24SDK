@@ -5,8 +5,6 @@ import 'package:sample_merchant_app_flutter/helper/generate_text.dart';
 import 'package:sample_merchant_app_flutter/model/customer.dart';
 import 'package:sample_merchant_app_flutter/model/transaction_response.dart';
 import 'package:sample_merchant_app_flutter/model/transactionv2.dart';
-import 'package:sample_merchant_app_flutter/widget/button_widget.dart';
-import 'package:sample_merchant_app_flutter/widget/input_text_widget.dart';
 
 
 enum Currency{khr,usd}
@@ -16,6 +14,8 @@ enum Language{km,en}
 
 class HomeScreenDeprecate extends StatefulWidget {
 
+ const HomeScreenDeprecate({Key? key}):super(key: key);
+
   @override
   State<HomeScreenDeprecate> createState() => _HomeScreenDeprecateState();
 }
@@ -23,7 +23,6 @@ class HomeScreenDeprecate extends StatefulWidget {
 class _HomeScreenDeprecateState extends State<HomeScreenDeprecate> {
   final _amountController=TextEditingController();
   final _userRefController=TextEditingController();
-  final _tokenController=TextEditingController(text: "AAAA");
   Currency? _currency=Currency.khr;
   ThemeMode? _themeMode=ThemeMode.lightMode;
   Language? _language=Language.km;
