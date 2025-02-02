@@ -37,7 +37,7 @@ dependencies:
   # http: ^1.1.0
   go_router: ^13.2.4
   package_info_plus: ^8.0.2
-  b24_payment_sdk: ^1.1.11
+  b24_payment_sdk: ^1.1.13-beta.1
   sqflite: ^2.3.0
   path: ^1.8.3
   restart_app: ^1.2.1
