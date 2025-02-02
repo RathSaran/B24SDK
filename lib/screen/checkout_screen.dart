@@ -172,19 +172,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       if (response.statusCode == 200) {
         final responseDecode = jsonDecode(response.body);
         if (responseDecode['code'] == 'SUCCESS') {
-          B24PaymentSdk.intSdk(
-              // ignore: use_build_context_synchronously
-              controller: (context),
-              tranId: responseDecode['data']['tran_id'],
-              refererKey: widget.sharePreferenceManager.prefs
-                  .getString(Constant.refererKey)!,
-              language: widget.sharePreferenceManager.prefs
-                  .getString(Constant.languageKey),
-              darkMode: widget.sharePreferenceManager.prefs
-                          .getString(Constant.themeKey) ==
-                      "false"
-                  ? false
-                  : true);
+          // B24PaymentSdk.intSdk(
+          //     // ignore: use_build_context_synchronously
+          //     controller: (context),
+          //     tranId: responseDecode['data']['tran_id'],
+          //     refererKey: widget.sharePreferenceManager.prefs
+          //         .getString(Constant.refererKey)!,
+          //     language: widget.sharePreferenceManager.prefs
+          //         .getString(Constant.languageKey),
+          //     darkMode: widget.sharePreferenceManager.prefs
+          //                 .getString(Constant.themeKey) ==
+          //             "false"
+          //         ? false
+          //         : true);
         } else {
           // ignore: use_build_context_synchronously
           showDialog(

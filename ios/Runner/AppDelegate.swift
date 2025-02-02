@@ -3,7 +3,7 @@ import Flutter
 
 
 
-@UIApplicationMain
+@main
 @objc class AppDelegate: FlutterAppDelegate {
   
   override func application(

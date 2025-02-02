@@ -31,7 +31,7 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
   
-  # pod 'B24PaymentSdk', :http => 'https://b24sdk.s3.ap-southeast-1.amazonaws.com/B24PaymentSdk-1-0-10.zip'
+  #pod 'B24PaymentSdk', :http => './Frameworks/B24PaymentSdk.framework'
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
   target 'RunnerTests' do

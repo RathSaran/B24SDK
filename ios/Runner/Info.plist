@@ -36,6 +36,8 @@
 			<string>com.example.sampleMerchantAppFlutter</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+			    <string>http</string>
+			    <string>https</string>
 				<string>b24deeplink</string>
 			</array>
 		</dict>

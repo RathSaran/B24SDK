@@ -11,8 +11,9 @@ void main() {
   ));
 }
 
-final router = GoRouter(routes: [
-  GoRoute(
+final router = GoRouter(
+  routes: [
+    GoRoute(
       path: '/',
       builder: (_, __) {
         return InitDirectDebitScreen();
@@ -40,30 +41,38 @@ final router = GoRouter(routes: [
               //   );
               // }
               // return const Scaffold();
-            })
-      ]),
-  GoRoute(
-      path: '/detail',
-      builder: (_, state) {
-        final tranNo = state.uri.queryParameters['tran_id'];
-        if (tranNo != null && tranNo.isNotEmpty) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text("Detail "),
-            ),
-            body: Center(
-              child: Text(
-                "Detail Screen $tranNo",
-                style: const TextStyle(fontSize: 22),
+            }),
+      ],
+    ),
+    GoRoute(
+        path: '/detail',
+        builder: (_, state) {
+          final tranNo = state.uri.queryParameters['tran_id'];
+          if (tranNo != null && tranNo.isNotEmpty) {
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text("Detail "),
               ),
+              body: Center(
+                child: Text(
+                  "Detail Screen $tranNo",
+                  style: const TextStyle(fontSize: 22),
+                ),
+              ),
+            );
+          }
+          return Scaffold(
+            appBar: AppBar(),
+            body: const Center(
+              child: Text("Detail Screen", style: TextStyle(fontSize: 22)),
             ),
           );
-        }
-        return Scaffold(
-          appBar: AppBar(),
-          body: const Center(
-            child: Text("Detail Screen", style: TextStyle(fontSize: 22)),
-          ),
-        );
-      })
-]);
+        })
+  ],
+  errorBuilder: (context, state) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Error')),
+      body: const Center(child: Text('Page not found')),
+    );
+  },
+);

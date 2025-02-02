@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:sample_merchant_app_flutter/helper/helper.dart';
 import 'package:sample_merchant_app_flutter/provider/merchant_provider.dart';
 import 'package:sample_merchant_app_flutter/screen/home_screen.dart';
+import 'package:sample_merchant_app_flutter/screen/test/lauch_deeplink_screen.dart';
 import 'package:sample_merchant_app_flutter/widget/button_widget_cus.dart';
 import 'package:sample_merchant_app_flutter/widget/input_widget.dart';
 import 'package:sample_merchant_app_flutter/widget/sizebox_widget.dart';
@@ -105,7 +106,9 @@ class _InitDirectDebitScreenState extends State<InitDirectDebitScreen> {
                                 _refererKeyController.text = value;
                               },
                               suffixIcon: IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    pasteText(_refererKeyController);
+                                  },
                                   icon: const Icon(Icons.paste_outlined)),
                               label: const Text('Referer Key'),
                               controller: _refererKeyController),
@@ -190,16 +193,16 @@ class _InitDirectDebitScreenState extends State<InitDirectDebitScreen> {
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
                                   B24DirectDebitSdk.initSdk(
-                                      controller: context,
+                                      context: context,
                                       subscriptionNo:
                                           _subscriptonNoController.text,
                                       refererKey: _refererKeyController.text,
                                       isDarkMode: provider.isDarkMode,
-                                      languageCode:
+                                      language:
                                           provider.isEnglish ? 'en' : 'km',
                                       isProduction: provider.isProduction,
                                       testingEnv:
-                                          provider.selectOption ?? 'Demo');
+                                          provider.selectOption ?? 'Dev');
                                 }
                               },
                               text: 'Init SDK')
@@ -215,6 +218,7 @@ class _InitDirectDebitScreenState extends State<InitDirectDebitScreen> {
             );
           }),
         ));
+  
   }
 }
 
@@ -247,6 +251,15 @@ _buildNavigationDrawer(BuildContext context) {
                   Navigator.of(context).pop();
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => const HomeScreen()));
+                },
+              ),
+               ListTile(
+                leading: const Icon(Icons.add_box_outlined),
+                title: const Text("TEST REDIRECT"),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => LauchDeeplinkScreen()));
                 },
               ),
               // ListTile(
