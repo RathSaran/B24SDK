@@ -18,9 +18,7 @@ class SuccessScreen extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_rounded),
           onPressed: () {
-           if(Navigator.canPop(context)){
-             Navigator.pop(context);
-           }
+           Navigator.of(context).popUntil((route) => route.isFirst);
           },
         ),
       ),

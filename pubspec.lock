@@ -37,10 +37,10 @@ packages:
     dependency: "direct main"
     description:
       name: b24_payment_sdk
-      sha256: a809973b54118d60a21d3aa305962c4f31cf632ba7d2fe726011de52a5627068
+      sha256: af9076452fc045574b2a2019f950b572c1cbc67ceb4546ac5dd9f36d02fed58d
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.13-beta.1"
+    version: "1.1.13-beta.4"
   boolean_selector:
     dependency: transitive
     description:
