@@ -1,277 +1,333 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter/widgets.dart';
-// import 'package:provider/provider.dart';
-// import 'package:sample_merchant_app_flutter/helper/helper.dart';
-// import 'package:sample_merchant_app_flutter/provider/merchant_provider.dart';
-// import 'package:sample_merchant_app_flutter/screen/home_screen.dart';
-// import 'package:sample_merchant_app_flutter/widget/button_widget.dart';
-// import 'package:sample_merchant_app_flutter/widget/input_widget.dart';
-// import 'package:sample_merchant_app_flutter/widget/sizebox_widget.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:sample_merchant_app_flutter/helper/SharePreferenceManager.dart';
+import 'package:sample_merchant_app_flutter/screen/checkout_screen.dart';
+import 'package:sample_merchant_app_flutter/screen/home_screen.dart';
+import 'package:sample_merchant_app_flutter/screen/setting_screen.dart';
+import 'package:sample_merchant_app_flutter/widget/button_widget.dart';
+import 'package:sample_merchant_app_flutter/widget/input_text_widget.dart';
+import 'package:b24_payment_sdk/b24_payment_sdk.dart';
 
-// class DigitaLWallet extends StatefulWidget {
-//   String env = 'Demo';
-//   bool envBool = true;
+enum ThemeMode { darkMode, lightMode }
 
-//   DigitaLWallet({super.key});
+enum Language { km, en }
 
-//   @override
-//   State<DigitaLWallet> createState() => _DigitaLWalletState();
-// }
+class HomeScreenWallet extends StatefulWidget {
+  const HomeScreenWallet({Key? key}) : super(key: key);
 
-// class _DigitaLWalletState extends State<DigitaLWallet> {
-//   final _subscriptonNoController = TextEditingController();
-//   final _refererKeyController = TextEditingController();
-//   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         appBar: AppBar(
-//           elevation: 1,
-//           backgroundColor: Colors.blue,
-//           title: const Text(
-//             "Merchant DD",
-//             style: TextStyle(color: Colors.white),
-//           ),
-//           actions: [
-//             Container(
-//                 padding: const EdgeInsets.only(right: 15),
-//                 alignment: Alignment.centerRight,
-//                 child: FutureBuilder<PackageInfo>(
-//                   future: PackageInfo.fromPlatform(),
-//                   builder: (context, snapshot) {
-//                     if (snapshot.data != null) {
-//                       var packageInfo = snapshot.data!;
-//                       return Text(
-//                         'V${packageInfo.version}.${packageInfo.buildNumber}',
-//                         style: const TextStyle(color: Colors.white),
-//                       );
-//                     }
-//                     return const Text('V1.0.0.0');
-//                   },
-//                 ))
-//           ],
-//         ),
-//         drawer: _buildNavigationDrawer(context),
-//         body: ChangeNotifierProvider(
-//           create: (_) => MerchantProvider(),
-//           child:
-//               Consumer<MerchantProvider>(builder: (context, provider, child) {
-//             getSharePref(provider);
-//             return Container(
-//               padding: const EdgeInsets.symmetric(horizontal: 20),
-//               width: MediaQuery.of(context).size.width,
-//               child: Form(
-//                 key: _formKey,
-//                 child: Column(
-//                   children: [
-//                     const SizeboxWidget(
-//                       height: 40,
-//                     ),
-//                     Expanded(
-//                         child: SingleChildScrollView(
-//                       child: Column(
-//                         children: [
-//                           InputWidget(
-//                               // ignore: body_might_complete_normally_nullable
-//                               validator: (value) {
-//                                 if (value == null || value.isEmpty) {
-//                                   return 'Please input Subscription No';
-//                                 }
-//                                 // return null if the validation passes
-//                               },
-//                               onChanged: (value) {
-//                                 setState(() {
-//                                   _subscriptonNoController.text = value;
-//                                 });
-//                               },
-//                               suffixIcon: IconButton(
-//                                   onPressed: () {
-//                                     pasteText(_subscriptonNoController);
-//                                   },
-//                                   icon: const Icon(Icons.paste_outlined)),
-//                               label: const Text('Subscription No'),
-//                               controller: _subscriptonNoController),
-//                           const SizeboxWidget(),
-//                           InputWidget(
-//                               // ignore: body_might_complete_normally_nullable
-//                               validator: (value) {
-//                                 if (value == null || value.isEmpty) {
-//                                   return 'Please input Referer Key';
-//                                 }
-//                               },
-//                               onChanged: (value) {
-//                                 _refererKeyController.text = value;
-//                               },
-//                               suffixIcon: IconButton(
-//                                   onPressed: () {
-//                                     pasteText(_refererKeyController);
-//                                   },
-//                                   icon: const Icon(Icons.paste_outlined)),
-//                               label: const Text('Referer Key'),
-//                               controller: _refererKeyController),
-//                           Row(
-//                             children: [
-//                               Checkbox(
-//                                   value: provider.isDarkMode,
-//                                   onChanged: (value) {
-//                                     provider.setDarkMode(value!);
-//                                   }),
-//                               const Text('DarkMode'),
-//                             ],
-//                           ),
-//                           Row(
-//                             children: [
-//                               Checkbox(
-//                                   value: provider.isProduction,
-//                                   onChanged: (value) {
-//                                     provider.setProduction(value!);
-//                                   }),
-//                               const Text('Production'),
-//                             ],
-//                           ),
-//                           Row(
-//                             children: [
-//                               Checkbox(
-//                                   value: provider.isEnglish,
-//                                   onChanged: (value) {
-//                                     provider.setEnglish(value!);
-//                                   }),
-//                               const Text('English'),
-//                             ],
-//                           ),
-//                           const SizeboxWidget(
-//                             height: 20,
-//                           ),
-//                           const Text("Testing Environment"),
-//                           Row(
-//                             children: [
-//                               Row(
-//                                 mainAxisSize: MainAxisSize.min,
-//                                 children: [
-//                                   Radio<String>(
-//                                       value: 'Demo',
-//                                       groupValue: provider.selectOption,
-//                                       onChanged: (value) {
-//                                         provider.changeEnvironment(value!);
-//                                         setSharePref(env: value);
-//                                       }),
-//                                   const Text('Demo')
-//                                 ],
-//                               ),
-//                               Row(
-//                                 mainAxisSize: MainAxisSize.min,
-//                                 children: [
-//                                   Radio<String>(
-//                                       value: 'Stag',
-//                                       groupValue: provider.selectOption,
-//                                       onChanged: (value) {
-//                                         provider.changeEnvironment(value!);
-//                                         setSharePref(env: value);
-//                                       }),
-//                                   const Text("Staging")
-//                                 ],
-//                               ),
-//                               Row(
-//                                 mainAxisSize: MainAxisSize.min,
-//                                 children: [
-//                                   Radio<String>(
-//                                       value: 'Pilot',
-//                                       groupValue: provider.selectOption,
-//                                       onChanged: (value) {
-//                                         provider.changeEnvironment(value!);
-//                                         setSharePref(env: value);
-//                                       }),
-//                                   const Text("Pilot")
-//                                 ],
-//                               ),
-//                             ],
-//                           ),
-//                           ButtonWidget(
-//                               onPressed: () {
-//                                 if (_formKey.currentState!.validate()) {
-//                                   // B24DirectDebitSdk.initSdk(
-//                                   //     context: context,
-//                                   //     subscriptionNo:
-//                                   //         _subscriptonNoController.text,
-//                                   //     refererKey: _refererKeyController.text,
-//                                   //     isDarkMode: provider.isDarkMode,
-//                                   //     language:
-//                                   //         provider.isEnglish ? 'en' : 'km',
-//                                   //     isProduction: provider.isProduction,
-//                                   //     testingEnv:
-//                                   //         provider.selectOption ?? 'Dev');
-//                                 }
-//                               },
-//                               text: 'Init SDK')
-//                         ],
-//                       ),
-//                     )),
-//                     const SizedBox(
-//                       height: 10,
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             );
-//           }),
-//         ));
-//   }
+  @override
+  State<HomeScreenWallet> createState() => _HomeScreenWalletState();
+}
 
-//   setSharePref({String env = 'Demo'}) async {
-//     SharedPreferences pref = await SharedPreferences.getInstance();
-//     pref.setString('ENV', env);
-//   }
+class _HomeScreenWalletState extends State<HomeScreenWallet> {
+  SharePreferenceManager sharePreferenceManager = SharePreferenceManager();
 
-//   getSharePref(MerchantProvider provider) async {
-//     SharedPreferences pref = await SharedPreferences.getInstance();
-//     // ignore: await_only_futures
-//     provider.selectOption = await pref.getString('ENV');
-//     provider.notify();
-//   }
+  final _transactionNoController = TextEditingController();
+  final _refererKeyController = TextEditingController();
 
-//   _buildNavigationDrawer(BuildContext context) {
-//     return Drawer(
-//       surfaceTintColor: Colors.white,
-//       child: SafeArea(
-//           child: Column(
-//         children: [
-//           Expanded(
-//             child: ListView(
-//               children: [
-//                 const DrawerHeader(child: Text("MERCHANT PLATFORM")),
-//                 ListTile(
-//                   leading: const Icon(Icons.add_box_outlined),
-//                   title: const Text("INIT DEEPLINk"),
-//                   onTap: () {
-//                     Navigator.of(context).pop();
-//                     Navigator.of(context).push(MaterialPageRoute(
-//                         builder: (context) => const HomeScreen()));
-//                   },
-//                 ),
-//                 ListTile(
-//                   leading: const Icon(Icons.add_box_outlined),
-//                   title: const Text("TEST REDIRECT"),
-//                   onTap: () {
-//                     Navigator.of(context).pop();
-//                     Navigator.of(context).push(MaterialPageRoute(
-//                         builder: (context) => LauchDeeplinkScreen()));
-//                   },
-//                 ),
-//                 // ListTile(
-//                 //   leading: const Icon(Icons.settings_outlined),
-//                 //   title: const Text("Setting Config"),
-//                 //   onTap: () {
-//                 //     // Navigator.of(context).pop();
-//                 //     // Navigator.of(context).push(
-//                 //     //     MaterialPageRoute(builder: (context) => SettingConfig()));
-//                 //   },
-//                 // )
-//               ],
-//             ),
-//           )
-//         ],
-//       )),
-//     );
-//   }
-// }
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String _inputText = '';
+
+  String? _validateInputText(String? value, String field) {
+    if (value == null || value.isEmpty) {
+      return 'Please input $field';
+    }
+  }
+
+  ThemeMode? _themeMode = ThemeMode.lightMode;
+  Language? _language = Language.km;
+
+  bool darkMode = false;
+  String language = "km";
+  bool production = false;
+
+  _initSharePref() async {
+    await sharePreferenceManager.init();
+  }
+
+  _showBottomSheet() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            padding: const EdgeInsets.only(top: 40, bottom: 40),
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CheckoutScreen(
+                                    sharePreferenceManager:
+                                        sharePreferenceManager,
+                                  )));
+                    },
+                    child: const Text("Checkout"),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SettingScreen(
+                                    sharePreferenceManager:
+                                        sharePreferenceManager,
+                                  )));
+                    },
+                    child: const Text("Setting"),
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  // _initInputValue() {
+  //   sharePreferenceManager.prefs
+  //       .setString(Constant.tokenKey, "1f78ef77601c4ca7a66f7392ac4f9d1d");
+
+  //   sharePreferenceManager.prefs.setString(Constant.refererKey, "123X");
+
+  //   sharePreferenceManager.prefs.setString(Constant.redirect, "http://dl-merchant-sample.bill24.io/success");
+
+  // sharePreferenceManager.prefs
+  //                   .setString(Constant.languageKey, "km");
+
+  // sharePreferenceManager.prefs
+  //                   .setString(Constant.themeKey, "false");
+  // }
+
+  @override
+  Widget build(BuildContext context) {
+    _initSharePref();
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+          appBar: AppBar(
+            title: const Text("Digital Wallet"),
+            leading: IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => HomeScreen()));
+              },
+              icon: Icon(Icons.swipe),
+            ),
+            actions: [
+              Container(
+                  padding: const EdgeInsets.only(right: 15),
+                  alignment: Alignment.centerRight,
+                  child: FutureBuilder<PackageInfo>(
+                    future: PackageInfo.fromPlatform(),
+                    builder: (context, snapshot) {
+                      if (snapshot.data != null) {
+                        var packageInfo = snapshot.data!;
+                        return Text(
+                            'V${packageInfo.version}.${packageInfo.buildNumber}');
+                      }
+                      return const Text('V1.2.0-beta.1');
+                    },
+                  ))
+            ],
+          ),
+          body: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.all(15),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    //transaction no
+                    InputTextWidget(
+                      label: "customerSynCode",
+                      inputType: TextInputType.text,
+                      controller: _transactionNoController,
+                      validator: (value) =>
+                          _validateInputText(value, "customerSynCode"),
+                      onChanged: (value) {
+                        setState(() {
+                          _inputText = value;
+                        });
+                      },
+                      pastIcon: IconButton(
+                        icon: const Icon(Icons.paste_outlined),
+                        onPressed: () async {
+                          ClipboardData? clipboard =
+                              await Clipboard.getData(Clipboard.kTextPlain);
+                          if (clipboard != null) {
+                            _transactionNoController.text =
+                                clipboard.text ?? "";
+                          }
+
+                          //Restart.restartApp();
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    //referer key
+                    InputTextWidget(
+                      label: "referer key",
+                      inputType: TextInputType.text,
+                      controller: _refererKeyController,
+                      validator: (value) =>
+                          _validateInputText(value, "referer key"),
+                      onChanged: (value) {
+                        setState(() {
+                          _inputText = value;
+                        });
+                      },
+                      pastIcon: const SizedBox(),
+                    ),
+
+                    //theme mode
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            children: [
+                              Radio<ThemeMode>(
+                                value: ThemeMode.lightMode,
+                                groupValue: _themeMode,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _themeMode = value;
+                                    darkMode = false;
+                                  });
+                                },
+                              ),
+                              const Text("Light Mode")
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Radio<ThemeMode>(
+                                value: ThemeMode.darkMode,
+                                groupValue: _themeMode,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _themeMode = value;
+                                    darkMode = true;
+                                  });
+                                },
+                              ),
+                              const Text("Dark Mode")
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+
+                    //language
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            children: [
+                              Radio<Language>(
+                                value: Language.km,
+                                groupValue: _language,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _language = value;
+                                    language = "km";
+                                  });
+                                },
+                              ),
+                              const Text("Khmer")
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Radio<Language>(
+                                value: Language.en,
+                                groupValue: _language,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _language = value;
+                                    language = "en";
+                                  });
+                                },
+                              ),
+                              const Text("English")
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(
+                      height: 10,
+                    ),
+
+                    Row(
+                      children: [
+                        Checkbox(
+                            value: production,
+                            onChanged: (value) {
+                              setState(() {
+                                production = value!;
+                              });
+                            }),
+                        const Text("Production")
+                      ],
+                    ),
+
+                    //load sdk
+                    ButtonWidget(
+                        color: Colors.green,
+                        name: "Init Sdk",
+                        callback: () async {
+                          FocusScope.of(context).unfocus();
+                          //for call in flutter
+                          if (_formKey.currentState!.validate()) {
+                            //ignore: use_build_context_synchronously
+                            // B24PaymentSdk.initSdk(
+                            //     controller: (context),
+                            //     tranId: _transactionNoController.text,
+                            //     refererKey: _refererKeyController.text,
+                            //     darkMode: darkMode,
+                            //     language: language,
+                            //     isProduction: production,
+                            //     testingEnv: "STAG");
+
+                            B24PaymentSdk.initInstantPaymentSdk(
+                                context: context,
+                                customerSyncCode: _transactionNoController.text,
+                                refererKey: _refererKeyController.text,
+                                isDarkmode: darkMode,
+                                isProduction: production,
+                                language: language,
+                                testingEnv: "STAG");
+                          }
+                        })
+                  ],
+                ),
+              ),
+            ),
+          ),
+          floatingActionButton: FloatingActionButton(
+              child: const Icon(Icons.settings),
+              onPressed: () {
+                _showBottomSheet();
+              })),
+    );
+  }
+}

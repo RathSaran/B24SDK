@@ -115,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       child: Scaffold(
           appBar: AppBar(
-            title: const Text("Merchant App"),
+            title: const Text("DeepLink "),
             actions: [
               Container(
                   padding: const EdgeInsets.only(right: 15),
@@ -128,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         return Text(
                             'V${packageInfo.version}.${packageInfo.buildNumber}');
                       }
-                      return const Text('V1.0.0.0');
+                      return const Text('V1.2.0-beta.1');
                     },
                   ))
             ],
@@ -291,13 +291,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           //for call in flutter
                           if (_formKey.currentState!.validate()) {
                             //ignore: use_build_context_synchronously
-                            B24PaymentSdk.intSdk(
+                            B24PaymentSdk.initSdk(
                                 controller: (context),
                                 tranId: _transactionNoController.text,
                                 refererKey: _refererKeyController.text,
                                 darkMode: darkMode,
                                 language: language,
-                                isProduction: production);
+                                isProduction: production,
+                                testingEnv: "STAG");
                           }
                         })
                   ],

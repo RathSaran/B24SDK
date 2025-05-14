@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sample_merchant_app_flutter/screen/Wallet/digital_wallet.dart';
 import 'package:sample_merchant_app_flutter/screen/directdebit/direct_debit_screen.dart';
 import 'package:sample_merchant_app_flutter/screen/directdebit/subscription_success.dart';
+import 'package:sample_merchant_app_flutter/screen/home_screen.dart';
 import 'package:sample_merchant_app_flutter/screen/success_screen.dart';
 
 void main() {
@@ -16,7 +18,7 @@ final router = GoRouter(
     GoRoute(
       path: '/',
       builder: (_, __) {
-        return InitDirectDebitScreen();
+        return HomeScreenWallet();
       },
       routes: [
         GoRoute(
