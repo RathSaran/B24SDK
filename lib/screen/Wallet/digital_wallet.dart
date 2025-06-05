@@ -33,17 +33,32 @@ class _HomeScreenWalletState extends State<HomeScreenWallet> {
     if (value == null || value.isEmpty) {
       return 'Please input $field';
     }
+    return null;
   }
 
   ThemeMode? _themeMode = ThemeMode.lightMode;
   Language? _language = Language.km;
-
   bool darkMode = false;
   String language = "km";
-  bool production = false;
+  bool isProduction = false;
+  String environment = "STAG";
 
   _initSharePref() async {
     await sharePreferenceManager.init();
+    setState(() {
+      environment =
+          sharePreferenceManager.prefs.getString('environment') ?? "STAG";
+      isProduction =
+          sharePreferenceManager.prefs.getBool('isProduction') ?? false;
+    });
+  }
+
+  _saveEnvironment(String env) async {
+    await sharePreferenceManager.prefs.setString('environment', env);
+  }
+
+  _saveProduction(bool prod) async {
+    await sharePreferenceManager.prefs.setBool('isProduction', prod);
   }
 
   _showBottomSheet() {
@@ -91,21 +106,6 @@ class _HomeScreenWalletState extends State<HomeScreenWallet> {
           );
         });
   }
-
-  // _initInputValue() {
-  //   sharePreferenceManager.prefs
-  //       .setString(Constant.tokenKey, "1f78ef77601c4ca7a66f7392ac4f9d1d");
-
-  //   sharePreferenceManager.prefs.setString(Constant.refererKey, "123X");
-
-  //   sharePreferenceManager.prefs.setString(Constant.redirect, "http://dl-merchant-sample.bill24.io/success");
-
-  // sharePreferenceManager.prefs
-  //                   .setString(Constant.languageKey, "km");
-
-  // sharePreferenceManager.prefs
-  //                   .setString(Constant.themeKey, "false");
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -170,14 +170,10 @@ class _HomeScreenWalletState extends State<HomeScreenWallet> {
                             _transactionNoController.text =
                                 clipboard.text ?? "";
                           }
-
-                          //Restart.restartApp();
                         },
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const SizedBox(height: 10),
                     //referer key
                     InputTextWidget(
                       label: "referer key",
@@ -192,7 +188,6 @@ class _HomeScreenWalletState extends State<HomeScreenWallet> {
                       },
                       pastIcon: const SizedBox(),
                     ),
-
                     //theme mode
                     Align(
                       alignment: Alignment.centerLeft,
@@ -232,7 +227,6 @@ class _HomeScreenWalletState extends State<HomeScreenWallet> {
                         ],
                       ),
                     ),
-
                     //language
                     Align(
                       alignment: Alignment.centerLeft,
@@ -272,50 +266,74 @@ class _HomeScreenWalletState extends State<HomeScreenWallet> {
                         ],
                       ),
                     ),
-
-                    const SizedBox(
-                      height: 10,
-                    ),
-
+                    const SizedBox(height: 10),
+                    //production checkbox
                     Row(
                       children: [
                         Checkbox(
-                            value: production,
+                            value: isProduction,
                             onChanged: (value) {
                               setState(() {
-                                production = value!;
+                                isProduction = value!;
+                                _saveProduction(value);
                               });
                             }),
                         const Text("Production")
                       ],
                     ),
-
+                    //environment dropdown
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text("Environment: "),
+                          DropdownButton<String>(
+                            value: environment,
+                            items: const [
+                              DropdownMenuItem(
+                                value: "DEMO",
+                                child: Text("Demo"),
+                              ),
+                              DropdownMenuItem(
+                                value: "STAG",
+                                child: Text("Stage"),
+                              ),
+                              DropdownMenuItem(
+                                value: "PRODUCTION",
+                                child: Text("Production"),
+                              ),
+                            ],
+                            onChanged: (value) {
+                              if (value != null) {
+                                setState(() {
+                                  environment = value;
+                                  _saveEnvironment(value);
+                                });
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 10),
                     //load sdk
                     ButtonWidget(
                         color: Colors.green,
                         name: "Init Sdk",
                         callback: () async {
+                          print("------->$isProduction");
+                          print("===============>$environment");
                           FocusScope.of(context).unfocus();
-                          //for call in flutter
                           if (_formKey.currentState!.validate()) {
-                            //ignore: use_build_context_synchronously
-                            // B24PaymentSdk.initSdk(
-                            //     controller: (context),
-                            //     tranId: _transactionNoController.text,
-                            //     refererKey: _refererKeyController.text,
-                            //     darkMode: darkMode,
-                            //     language: language,
-                            //     isProduction: production,
-                            //     testingEnv: "STAG");
-
                             B24PaymentSdk.initInstantPaymentSdk(
                                 context: context,
                                 customerSyncCode: _transactionNoController.text,
                                 refererKey: _refererKeyController.text,
                                 isDarkmode: darkMode,
-                                isProduction: production,
+                                isProduction: isProduction,
                                 language: language,
-                                testingEnv: "STAG");
+                                testingEnv: environment);
                           }
                         })
                   ],
