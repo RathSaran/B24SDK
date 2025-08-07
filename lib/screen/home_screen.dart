@@ -7,6 +7,7 @@ import 'package:sample_merchant_app_flutter/screen/setting_screen.dart';
 import 'package:sample_merchant_app_flutter/widget/button_widget.dart';
 import 'package:sample_merchant_app_flutter/widget/input_text_widget.dart';
 import 'package:b24_payment_sdk/b24_payment_sdk.dart';
+import 'package:go_router/go_router.dart';
 
 enum ThemeMode { darkMode, lightMode }
 
@@ -116,6 +117,26 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
           appBar: AppBar(
             title: const Text("DeepLink"),
+            leading: PopupMenuButton<String>(
+              onSelected: (value) {
+                context.go(value); // Use GoRouter to navigate
+              },
+              itemBuilder: (BuildContext context) => [
+                const PopupMenuItem(
+                  value: '/page1',
+                  child: Text('Wallet'),
+                ),
+                const PopupMenuItem(
+                  value: '/page2',
+                  child: Text('Deeplink'),
+                ),
+                const PopupMenuItem(
+                  value: '/page3',
+                  child: Text('DirectDebit'),
+                ),
+              ],
+              icon: const Icon(Icons.menu),
+            ),
             actions: [
               Container(
                   padding: const EdgeInsets.only(right: 15),

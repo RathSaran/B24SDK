@@ -10,6 +10,7 @@ import 'package:sample_merchant_app_flutter/widget/button_widget_cus.dart';
 import 'package:sample_merchant_app_flutter/widget/input_widget.dart';
 import 'package:sample_merchant_app_flutter/widget/sizebox_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:go_router/go_router.dart';
 
 // ignore: must_be_immutable
 class InitDirectDebitScreen extends StatefulWidget {
@@ -35,6 +36,26 @@ class _InitDirectDebitScreenState extends State<InitDirectDebitScreen> {
             "Merchant DD",
             style: TextStyle(color: Colors.white),
           ),
+          leading: PopupMenuButton<String>(
+            onSelected: (value) {
+              context.go(value); // Use GoRouter to navigate
+            },
+            itemBuilder: (BuildContext context) => [
+              const PopupMenuItem(
+                value: '/page1',
+                child: Text('Wallet'),
+              ),
+              const PopupMenuItem(
+                value: '/page2',
+                child: Text('Deeplink'),
+              ),
+              const PopupMenuItem(
+                value: '/page3',
+                child: Text('DirectDebit'),
+              ),
+            ],
+            icon: const Icon(Icons.menu),
+          ),
           actions: [
             Container(
                 padding: const EdgeInsets.only(right: 15),
@@ -54,7 +75,6 @@ class _InitDirectDebitScreenState extends State<InitDirectDebitScreen> {
                 ))
           ],
         ),
-        drawer: _buildNavigationDrawer(context),
         body: ChangeNotifierProvider(
           create: (_) => MerchantProvider(),
           child:
@@ -152,7 +172,7 @@ class _InitDirectDebitScreenState extends State<InitDirectDebitScreen> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Radio<String>(
-                                      value: 'Demo',
+                                      value: 'DEMO',
                                       groupValue: provider.selectOption,
                                       onChanged: (value) {
                                         provider.changeEnvironment(value!);
@@ -165,7 +185,7 @@ class _InitDirectDebitScreenState extends State<InitDirectDebitScreen> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Radio<String>(
-                                      value: 'Stag',
+                                      value: 'STAG',
                                       groupValue: provider.selectOption,
                                       onChanged: (value) {
                                         provider.changeEnvironment(value!);
@@ -178,7 +198,7 @@ class _InitDirectDebitScreenState extends State<InitDirectDebitScreen> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Radio<String>(
-                                      value: 'Pilot',
+                                      value: 'PILOT',
                                       groupValue: provider.selectOption,
                                       onChanged: (value) {
                                         provider.changeEnvironment(value!);
@@ -218,7 +238,6 @@ class _InitDirectDebitScreenState extends State<InitDirectDebitScreen> {
             );
           }),
         ));
-  
   }
 }
 
@@ -232,49 +251,4 @@ getSharePref(MerchantProvider provider) async {
   // ignore: await_only_futures
   provider.selectOption = await pref.getString('ENV');
   provider.notify();
-}
-
-_buildNavigationDrawer(BuildContext context) {
-  return Drawer(
-    surfaceTintColor: Colors.white,
-    child: SafeArea(
-        child: Column(
-      children: [
-        Expanded(
-          child: ListView(
-            children: [
-              const DrawerHeader(child: Text("MERCHANT PLATFORM")),
-              ListTile(
-                leading: const Icon(Icons.add_box_outlined),
-                title: const Text("INIT DEEPLINk"),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const HomeScreen()));
-                },
-              ),
-               ListTile(
-                leading: const Icon(Icons.add_box_outlined),
-                title: const Text("TEST REDIRECT"),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => LauchDeeplinkScreen()));
-                },
-              ),
-              // ListTile(
-              //   leading: const Icon(Icons.settings_outlined),
-              //   title: const Text("Setting Config"),
-              //   onTap: () {
-              //     // Navigator.of(context).pop();
-              //     // Navigator.of(context).push(
-              //     //     MaterialPageRoute(builder: (context) => SettingConfig()));
-              //   },
-              // )
-            ],
-          ),
-        )
-      ],
-    )),
-  );
 }

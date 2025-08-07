@@ -8,6 +8,7 @@ import 'package:sample_merchant_app_flutter/screen/setting_screen.dart';
 import 'package:sample_merchant_app_flutter/widget/button_widget.dart';
 import 'package:sample_merchant_app_flutter/widget/input_text_widget.dart';
 import 'package:b24_payment_sdk/b24_payment_sdk.dart';
+import 'package:go_router/go_router.dart';
 
 enum ThemeMode { darkMode, lightMode }
 
@@ -117,13 +118,33 @@ class _HomeScreenWalletState extends State<HomeScreenWallet> {
       child: Scaffold(
           appBar: AppBar(
             title: const Text("Digital Wallet"),
-            leading: IconButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => HomeScreen()));
+            leading: PopupMenuButton<String>(
+              onSelected: (value) {
+                context.go(value); // Use GoRouter to navigate
               },
-              icon: Icon(Icons.swipe),
+              itemBuilder: (BuildContext context) => [
+                const PopupMenuItem(
+                  value: '/page1',
+                  child: Text('Wallet'),
+                ),
+                const PopupMenuItem(
+                  value: '/page2',
+                  child: Text('Deeplink'),
+                ),
+                const PopupMenuItem(
+                  value: '/page3',
+                  child: Text('DirectDebit'),
+                ),
+              ],
+              icon: const Icon(Icons.menu),
             ),
+            // leading: IconButton(
+            //   onPressed: () {
+            //     Navigator.of(context).push(
+            //         MaterialPageRoute(builder: (context) => HomeScreen()));
+            //   },
+            //   icon: Icon(Icons.swipe),
+            // ),
             actions: [
               Container(
                   padding: const EdgeInsets.only(right: 15),

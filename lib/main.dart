@@ -69,7 +69,19 @@ final router = GoRouter(
               child: Text("Detail Screen", style: TextStyle(fontSize: 22)),
             ),
           );
-        })
+        }),
+    GoRoute(
+      path: '//page1',
+      builder: (_, __) => HomeScreenWallet(), //wallet
+    ),
+    GoRoute(
+      path: '//page2',
+      builder: (_, __) => HomeScreen(), //deeplink
+    ),
+    GoRoute(
+      path: '//page3',
+      builder: (_, __) => InitDirectDebitScreen(), // ADD
+    ),
   ],
   errorBuilder: (context, state) {
     return Scaffold(
